@@ -22,7 +22,6 @@ startBtn.addEventListener("click", handleStart)
 
 startBtn.disabled = true;
 
-
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -33,9 +32,9 @@ const options = {
 
       if (userSelectedDate.getTime() < Date.now()) {
           startBtn.disabled = true;
-          iziToast.warning({
-              title: 'Caution',
-              message: 'Please choose a date in the future',
+          iziToast.error({
+            title: 'Error',
+            message: 'Please choose a date in the future',
           });
       } else if (userSelectedDate.getTime() > Date.now()) {
           startBtn.disabled = false;
