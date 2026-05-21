@@ -19,15 +19,12 @@ function inputInfo(event) {
 
     if (event.target === fulfill) {
         isFulfilled = true;
-        console.log("fulfill: ", isFulfilled);
         
     } else if (event.target === reject) {
         isRejected = true;
-        console.log("rejected: ", isRejected);
         
     } else {
         delay = +event.target.value;
-        console.log(delay);
     }
 
 }
