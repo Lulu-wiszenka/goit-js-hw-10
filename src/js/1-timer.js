@@ -42,7 +42,7 @@ const options = {
   },
 };
 
-const calendar = flatpickr(input, options);
+flatpickr(input, options);
 
 
 function handleStart() {
