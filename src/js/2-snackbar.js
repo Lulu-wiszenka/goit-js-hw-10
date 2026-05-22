@@ -4,30 +4,12 @@ import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
 const form = document.querySelector("form");
-const fulfill = document.querySelector('input[value="fulfilled"]');
-const reject = document.querySelector('input[value="rejected"]');
-
-let delay = 0;
-let status = "";
-
-form.addEventListener("input", inputInfo);
 form.addEventListener("submit", handleSubmit);
 
-function inputInfo(event) {
-
-    if (event.target === fulfill) {
-        status = "fulfilled";
-        
-    } else if (event.target === reject) {
-        status = "rejected";
-        
-    } else {
-        delay = +event.target.value;
-    }
-
-}
-
 function handleSubmit(event) {
+    const delay = Number(form.elements.delay.value);   // получаем данные формы
+    const status = form.elements.state.value;
+
     event.preventDefault();
     const promise = new Promise((resolve, reject) => {
         setTimeout(() => {
