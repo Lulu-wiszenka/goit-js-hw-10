@@ -15,7 +15,7 @@ function handleSubmit(event) {
         setTimeout(() => {
           if (status === "fulfilled") {
             resolve(delay);
-          } else if (status === "rejected") {
+          } else {
             reject(delay);
           };
         }, delay);
@@ -35,7 +35,4 @@ function handleSubmit(event) {
         });
     
     event.target.reset(); 
-
-    delay = 0;
-    status = "";
 }
