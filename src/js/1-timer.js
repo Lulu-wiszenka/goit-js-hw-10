@@ -30,7 +30,7 @@ const options = {
   onClose(selectedDates) {
       userSelectedDate = new Date(selectedDates[0]);
 
-      if (userSelectedDate.getTime() < Date.now()) {
+      if (userSelectedDate.getTime() <= Date.now()) {
           startBtn.disabled = true;
           iziToast.error({
             title: 'Error',
@@ -44,25 +44,24 @@ const options = {
 
 flatpickr(input, options);
 
+let intervalId = null;
 
 function handleStart() {
     input.disabled = true;
     startBtn.disabled = true;
     
-    let timeForTimer = 0;
     const startTime = Date.now();
-    const intervalId = setInterval(() => {
-        const currentDate = Date.now();
-        timeForTimer = userSelectedDate.getTime() - currentDate;
-        updateClockface(convertMs(timeForTimer)); 
-        
+    intervalId = setInterval(() => {
+        const currentTime = Date.now();
+        const timeLeft = userSelectedDate.getTime() - currentTime;
+        if (timeLeft <= 0) {
+            clearInterval(intervalId);
+            updateClockface(convertMs(0));
+            input.disabled = false;
+            return;
+        } 
+            updateClockface(convertMs(timeLeft));
     }, 1000);
-    
-    setTimeout(()=>{
-        clearInterval(intervalId);
-        input.disabled = false;
-        updateClockface(convertMs(0));
-    }, userSelectedDate.getTime() - startTime);
 
 }
 

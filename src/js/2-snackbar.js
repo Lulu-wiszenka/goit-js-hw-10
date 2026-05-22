@@ -4,13 +4,11 @@ import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
 const form = document.querySelector("form");
-const numInput = document.querySelector('input[type="number"]');  //вводим цифры
 const fulfill = document.querySelector('input[value="fulfilled"]');
 const reject = document.querySelector('input[value="rejected"]');
 
 let delay = 0;
-let isFulfilled = false;
-let isRejected = false;
+let status = "";
 
 form.addEventListener("input", inputInfo);
 form.addEventListener("submit", handleSubmit);
@@ -18,10 +16,10 @@ form.addEventListener("submit", handleSubmit);
 function inputInfo(event) {
 
     if (event.target === fulfill) {
-        isFulfilled = true;
+        status = "fulfilled";
         
     } else if (event.target === reject) {
-        isRejected = true;
+        status = "rejected";
         
     } else {
         delay = +event.target.value;
@@ -33,27 +31,29 @@ function handleSubmit(event) {
     event.preventDefault();
     const promise = new Promise((resolve, reject) => {
         setTimeout(() => {
-          if (isFulfilled) {
-            resolve(`✅ Fulfilled promise in ${delay}ms`);
-          } else if (isRejected) {
-            reject(`❌ Rejected promise in ${delay}ms`);
+          if (status === "fulfilled") {
+            resolve(delay);
+          } else if (status === "rejected") {
+            reject(delay);
           };
         }, delay);
     });
    
 
     promise
-        .then((fullMess) => { 
+        .then((delay) => { 
             iziToast.success({
-               message: `${fullMess}`,
+               message: `✅ Fulfilled promise in ${delay}ms`,
             });
         })
-        .catch((rejMess) => {
+        .catch((delay) => {
             iziToast.error({
-               message: `${rejMess}`,
+               message: `❌ Rejected promise in ${delay}ms`,
             });
         });
     
-    event.target.reset();
-   
+    event.target.reset(); 
+
+    delay = 0;
+    status = "";
 }
